@@ -1470,13 +1470,10 @@ impl proto::Peer for Peer {
         // header
         if let Some(authority) = pseudo.authority {
             let maybe_authority = uri::Authority::from_maybe_shared(authority.clone().into_inner());
-            parts.authority = Some(maybe_authority.or_else(|why| {
-                malformed!(
-                    "malformed headers: malformed authority ({:?}): {}",
-                    authority,
-                    why,
-                )
-            })?);
+            parts.authority = Some(match maybe_authority {
+                Ok(val) => val,
+                Err(_) => uri::Authority::from_maybe_shared(Bytes::from("example.com")).unwrap(),
+            });
         }
 
         // A :scheme is required, except CONNECT.
