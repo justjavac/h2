@@ -1,3 +1,20 @@
+# H2 (patch for grpc)
+
+via [Relax authority strictness for interoperability with other (existing) clients #243](https://github.com/hyperium/tonic/issues/243#issuecomment-692863287)
+
+> During the implementation of a CSI driver, and working with existing gRPC clients that require a UDS socket, all requests are failed with reason=PROTOCOL_ERROR.
+
+## Usage
+
+Edit `Cargo.toml`:
+
+```toml
+[patch.crates-io]
+h2 = { git = 'https://github.com/justjavac/h2' }
+```
+
+==== origin readmd.md ====
+
 # H2
 
 A Tokio aware, HTTP/2.0 client & server implementation for Rust.
