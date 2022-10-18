@@ -786,6 +786,16 @@ impl Recv {
         }
     }
 
+    pub(super) fn maybe_reset_next_stream_id(&mut self, id: StreamId) {
+        if let Ok(next_id) = self.next_stream_id {
+            // !Peer::is_local_init should have been called beforehand
+            debug_assert_eq!(id.is_server_initiated(), next_id.is_server_initiated());
+            if id >= next_id {
+                self.next_stream_id = id.next_id();
+            }
+        }
+    }
+
     /// Returns true if the remote peer can reserve a stream with the given ID.
     pub fn ensure_can_reserve(&self) -> Result<(), Error> {
         if !self.is_push_enabled {
@@ -850,7 +860,10 @@ impl Recv {
             let reset_duration = self.reset_duration;
             while let Some(stream) = self.pending_reset_expired.pop_if(store, |stream| {
                 let reset_at = stream.reset_at.expect("reset_at must be set if in queue");
-                now - reset_at > reset_duration
+                // rust-lang/rust#86470 tracks a bug in the standard library where `Instant`
+                // subtraction can panic (because, on some platforms, `Instant` isn't actually
+                // monotonic). We use a saturating operation to avoid this panic here.
+                now.saturating_duration_since(reset_at) > reset_duration
             }) {
                 counts.transition_after(stream, true);
             }

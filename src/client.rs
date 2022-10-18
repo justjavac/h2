@@ -526,7 +526,7 @@ where
     ///
     /// This setting is configured by the server peer by sending the
     /// [`SETTINGS_ENABLE_CONNECT_PROTOCOL` parameter][2] in a `SETTINGS` frame.
-    /// This method returns the currently acknowledged value recieved from the
+    /// This method returns the currently acknowledged value received from the
     /// remote.
     ///
     /// [1]: https://datatracker.ietf.org/doc/html/rfc8441#section-4
@@ -1154,7 +1154,7 @@ where
     let builder = Builder::new();
     builder
         .handshake(io)
-        .instrument(tracing::trace_span!("client_handshake", io = %std::any::type_name::<T>()))
+        .instrument(tracing::trace_span!("client_handshake"))
         .await
 }
 
@@ -1280,7 +1280,7 @@ where
     ///
     /// This limit is configured by the server peer by sending the
     /// [`SETTINGS_MAX_CONCURRENT_STREAMS` parameter][1] in a `SETTINGS` frame.
-    /// This method returns the currently acknowledged value recieved from the
+    /// This method returns the currently acknowledged value received from the
     /// remote.
     ///
     /// [1]: https://tools.ietf.org/html/rfc7540#section-5.1.2

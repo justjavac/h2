@@ -1,3 +1,31 @@
+# 0.3.14 (August 16, 2022)
+
+* Add `Error::is_reset` function.
+* Bump MSRV to Rust 1.56.
+* Return `RST_STREAM(NO_ERROR)` when the server early responds.
+
+# 0.3.13 (March 31, 2022)
+
+* Update private internal `tokio-util` dependency.
+
+# 0.3.12 (March 9, 2022)
+
+* Avoid time operations that can panic (#599)
+* Bump MSRV to Rust 1.49 (#606)
+* Fix header decoding error when a header name is contained at a continuation
+  header boundary (#589)
+* Remove I/O type names from handshake `tracing` spans (#608)
+
+# 0.3.11 (January 26, 2022)
+
+* Make `SendStream::poll_capacity` never return `Ok(Some(0))` (#596)
+* Fix panic when receiving already reset push promise (#597)
+
+# 0.3.10 (January 6, 2022)
+
+* Add `Error::is_go_away()` and `Error::is_remote()` methods.
+* Fix panic if receiving malformed PUSH_PROMISE with stream ID of 0.
+
 # 0.3.9 (December 9, 2021)
 
 * Fix hang related to new `max_send_buffer_size`.
