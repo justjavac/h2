@@ -10,7 +10,7 @@ Edit `Cargo.toml`:
 
 ```toml
 [patch.crates-io]
-h2 = { git = 'https://github.com/justjavac/h2' }
+h2 = { git = "https://github.com/justjavac/h2" }
 ```
 
 ==== origin readmd.md ====
